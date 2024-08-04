@@ -57,7 +57,8 @@ selected_date = st.date_input("Selecione uma data", datetime.now().date())
 if not df.empty:
     filtered_schedule = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]
     if not filtered_schedule.empty:
-        st.write(filtered_schedule)
+        person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
+        st.success(f'Olá {person}, você está escalado para lavar a louça hoje.')
     else:
         st.warning("Nenhuma entrada encontrada para a data selecionada.")
 else:
