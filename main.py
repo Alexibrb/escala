@@ -31,23 +31,24 @@ if os.path.exists("schedule.csv"):
 else:
     df = generate_schedule(start_date, people)
     df.to_csv("schedule.csv", index=False)
-col1, col2 = st.columns(2)
-with col1:
-    # Botão para gerar a escala
-    if st.button("Gerar Escala"):
-        df = generate_schedule(start_date, people)
-        df.to_csv("schedule.csv", index=False)
-        st.write(df)
-        st.success("Escala gerada e salva com sucesso!")
-with col2:
-    # Botão para apagar a escala
-    if st.button("Apagar Escala"):
-        if os.path.exists("schedule.csv"):
-            os.remove("schedule.csv")
-            df = pd.DataFrame(columns=["Data", "Pessoa Escalada"])
-            st.success("Escala apagada com sucesso!")
-        else:
-            st.warning("Nenhuma escala para apagar.")
+with st.container():
+    col1, col2 = st.columns(2)
+    with col1:
+        # Botão para gerar a escala
+        if st.button("Gerar Escala"):
+            df = generate_schedule(start_date, people)
+            df.to_csv("schedule.csv", index=False)
+            st.write(df)
+            st.success("Escala gerada e salva com sucesso!")
+    with col2:
+        # Botão para apagar a escala
+        if st.button("Apagar Escala"):
+            if os.path.exists("schedule.csv"):
+                os.remove("schedule.csv")
+                df = pd.DataFrame(columns=["Data", "Pessoa Escalada"])
+                st.success("Escala apagada com sucesso!")
+            else:
+                st.warning("Nenhuma escala para apagar.")
 
 # Widget para selecionar data
 selected_date = st.date_input("Selecione uma data", datetime.now().date())
