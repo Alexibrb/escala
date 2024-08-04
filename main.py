@@ -17,7 +17,7 @@ def generate_schedule(start_date, people):
    # kit.sendwhatmsg(numero, mensagem, hora, minuto)
 
 # Lista de pessoas
-people = ["Neres", "Alex", "Ruth"]
+people = ["Alex", "Ruth", "Neres"]
 
 # Data de início da escala
 start_date = datetime.now().date()
