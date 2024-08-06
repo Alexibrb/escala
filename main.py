@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-#import pywhatkit as kit
+import pywhatkit as kit
 import os
 
 #Função para gerar a escala
