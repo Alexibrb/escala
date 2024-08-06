@@ -78,7 +78,7 @@ mes =agora.month
 
 if st.button("Enviar Mensagem de WhatsApp"):
    if os.path.exists("schedule.csv"):
-    df = pd.read_csv("schedule.csv")
+        df = pd.read_csv("schedule.csv")
         try:
             person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
             st.success(f"Enviando mensagem para {person}")
