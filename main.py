@@ -10,7 +10,7 @@ def generate_schedule(start_date, people):
     schedule = [(date, people[i % len(people)]) for i, date in enumerate(dates)]
     return pd.DataFrame(schedule, columns=["Data", "Pessoa Escalada"])
 
-Função para enviar mensagem no WhatsApp
+#Função para enviar mensagem no WhatsApp
 
 def enviar_mensagem(numero, mensagem, hora, minuto):
 
