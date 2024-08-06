@@ -54,7 +54,8 @@ with st.container():
 selected_date = st.date_input("Selecione uma data", datetime.now().date())
 
 # Filtrar escala por data selecionada
-if not df.empty:
+if os.path.exists("schedule.csv"):
+    df = pd.read_csv("schedule.csv")
     filtered_schedule = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]
     if not filtered_schedule.empty:
         person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
@@ -76,7 +77,8 @@ mes =agora.month
 
 
 if st.button("Enviar Mensagem de WhatsApp"):
-   if not df.empty:
+   if os.path.exists("schedule.csv"):
+    df = pd.read_csv("schedule.csv")
         try:
             person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
             st.success(f"Enviando mensagem para {person}")
@@ -96,8 +98,8 @@ if st.button("Enviar Mensagem de WhatsApp"):
 
         except IndexError:
             st.warning("Nenhuma pessoa encontrada para a data selecionada.")
-    else:
-        st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
+else:
+    st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
 
 
 
