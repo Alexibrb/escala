@@ -4,17 +4,17 @@ from datetime import datetime, timedelta
 #import pywhatkit as kit
 import os
 
-# Função para gerar a escala
+#Função para gerar a escala
 def generate_schedule(start_date, people):
     dates = pd.date_range(start=start_date, periods=365)
     schedule = [(date, people[i % len(people)]) for i, date in enumerate(dates)]
     return pd.DataFrame(schedule, columns=["Data", "Pessoa Escalada"])
 
-# Função para enviar mensagem no WhatsApp
+Função para enviar mensagem no WhatsApp
 
-#def enviar_mensagem(numero, mensagem, hora, minuto):
+def enviar_mensagem(numero, mensagem, hora, minuto):
 
-   # kit.sendwhatmsg(numero, mensagem, hora, minuto)
+    kit.sendwhatmsg(numero, mensagem, hora, minuto)
 
 # Lista de pessoas
 people = ["Alex", "Ruth", "Neres"]
@@ -75,29 +75,29 @@ dia = agora.day
 mes =agora.month
 
 
-#if st.button("Enviar Mensagem de WhatsApp"):
-   #if not df.empty:
-       # try:
-        #    person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
-         #   st.success(f"Enviando mensagem para {person}")
-          #  if person == "Alex":
-           #     phone_number = '+5577991395904'  # Substitua pelo número de telefone desejado
-            #    enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje.', hora,
-             #                   minuto)
-        #    elif person == "Neres":
-         #       phone_number = '+5577991084570'  # Substitua pelo número de telefone desejado
-          #      enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje.', hora,
-           #                     minuto)
-            #elif person == "Ruth":
-             #   phone_number = '+5577991278896'  # Substitua pelo número de telefone desejado
-              #  enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje dia {dia}/{mes}.', hora,
-               #                 minuto)
+if st.button("Enviar Mensagem de WhatsApp"):
+   if not df.empty:
+        try:
+            person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
+            st.success(f"Enviando mensagem para {person}")
+            if person == "Alex":
+                phone_number = '+5577991395904'  # Substitua pelo número de telefone desejado
+                enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje.', hora,
+                                minuto)
+            elif person == "Neres":
+                phone_number = '+5577991084570'  # Substitua pelo número de telefone desejado
+                enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje.', hora,
+                                minuto)
+            elif person == "Ruth":
+                phone_number = '+5577991278896'  # Substitua pelo número de telefone desejado
+                enviar_mensagem(phone_number, f'Olá {person}, você está escalado para lavar a louça hoje dia {dia}/{mes}.', hora,
+                                minuto)
 
 
-#        except IndexError:
-  #          st.warning("Nenhuma pessoa encontrada para a data selecionada.")
- #   else:
-   #     st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
+        except IndexError:
+            st.warning("Nenhuma pessoa encontrada para a data selecionada.")
+    else:
+        st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
 
 
 
