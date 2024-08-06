@@ -4,20 +4,20 @@ from datetime import datetime, timedelta
 import pywhatkit as kit
 import os
 
-#Função para gerar a escala
+# Função para gerar a escala
 def generate_schedule(start_date, people):
     dates = pd.date_range(start=start_date, periods=365)
     schedule = [(date, people[i % len(people)]) for i, date in enumerate(dates)]
     return pd.DataFrame(schedule, columns=["Data", "Pessoa Escalada"])
 
-#Função para enviar mensagem no WhatsApp
+# Função para enviar mensagem no WhatsApp
 
 def enviar_mensagem(numero, mensagem, hora, minuto):
 
     kit.sendwhatmsg(numero, mensagem, hora, minuto)
 
 # Lista de pessoas
-people = ["Alex", "Ruth", "Neres"]
+people = ["Neres", "Alex", "Ruth"]
 
 # Data de início da escala
 start_date = datetime.now().date()
@@ -31,35 +31,35 @@ if os.path.exists("schedule.csv"):
 else:
     df = generate_schedule(start_date, people)
     df.to_csv("schedule.csv", index=False)
-with st.container():
-    col1, col2 = st.columns(2)
-    with col1:
-        # Botão para gerar a escala
-        if st.button("Gerar Escala"):
-            df = generate_schedule(start_date, people)
-            df.to_csv("schedule.csv", index=False)
-            st.write(df)
-            st.success("Escala gerada e salva com sucesso!")
-    with col2:
-        # Botão para apagar a escala
-        if st.button("Apagar Escala"):
-            if os.path.exists("schedule.csv"):
-                os.remove("schedule.csv")
-                df = pd.DataFrame(columns=["Data", "Pessoa Escalada"])
-                st.success("Escala apagada com sucesso!")
-            else:
-                st.warning("Nenhuma escala para apagar.")
+
+col1, col2 = st.columns(2)
+with col1:
+    # Botão para gerar a escala
+    if st.button("Gerar Escala"):
+        df = generate_schedule(start_date, people)
+        df.to_csv("schedule.csv", index=False)
+        st.write(df)
+        st.success("Escala gerada e salva com sucesso!")
+with col2:
+    # Botão para apagar a escala
+    if st.button("Apagar Escala"):
+        if os.path.exists("schedule.csv"):
+            os.remove("schedule.csv")
+            df = pd.DataFrame(columns=["Data", "Pessoa Escalada"])
+            st.success("Escala apagada com sucesso!")
+        else:
+            st.warning("Nenhuma escala para apagar.")
 
 # Widget para selecionar data
 selected_date = st.date_input("Selecione uma data", datetime.now().date())
 
 # Filtrar escala por data selecionada
-if os.path.exists("schedule.csv"):
-    df = pd.read_csv("schedule.csv")
+if not df.empty:
     filtered_schedule = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]
     if not filtered_schedule.empty:
         person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
-        st.success(f'## Olá {person}, \n ### você está escalado(a) para lavar a louça nesta data.')
+        st.success(f'## Olá {person}, \n ### você está escalado para lavar a louça nesta data.')
+
     else:
         st.warning("Nenhuma entrada encontrada para a data selecionada.")
 else:
@@ -77,8 +77,7 @@ mes =agora.month
 
 
 if st.button("Enviar Mensagem de WhatsApp"):
-   if os.path.exists("schedule.csv"):
-        df = pd.read_csv("schedule.csv")
+    if not df.empty:
         try:
             person = df[df["Data"] == selected_date.strftime("%Y-%m-%d")]["Pessoa Escalada"].values[0]
             st.success(f"Enviando mensagem para {person}")
@@ -98,8 +97,8 @@ if st.button("Enviar Mensagem de WhatsApp"):
 
         except IndexError:
             st.warning("Nenhuma pessoa encontrada para a data selecionada.")
-else:
-    st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
+    else:
+        st.warning("Escala não encontrada. Por favor, gere a escala primeiro.")
 
 
 
