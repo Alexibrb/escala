@@ -10,7 +10,7 @@ def generate_schedule(start_date, people):
     return pd.DataFrame(schedule, columns=["Data", "Pessoa Escalada"])
 
 # Lista de pessoas
-people = ["Neres", "Alex", "Ruth"]
+people = ["Alex", "Neres", "Ruth"]
 
 # Data de início da escala
 start_date = datetime.now().date()
